@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IMPRESSUM — картинки на PDF</title>
+<title>IMPRESSUM — images on PDF</title>
 
 <!-- SEO -->
-<meta name="description" content="Добавьте картинку или подпись на PDF прямо в браузере: перетащите, разместите мышкой, сохраните. Бесплатно, без сервера — файлы не покидают ваш компьютер.">
-<meta name="keywords" content="pdf, подпись, картинка на pdf, штамп, печать, добавить изображение в pdf, sign pdf, stamp pdf, add image to pdf, pdf editor online, client-side">
+<meta name="description" content="Add an image or signature to a PDF right in your browser: drag it in, position it with the mouse, save. Free, no server — files never leave your computer.">
+<meta name="keywords" content="sign pdf, stamp pdf, add image to pdf, pdf signature, pdf editor online, client-side, подпись на pdf, картинка на pdf, добавить изображение в pdf, PDF 签名, PDF 加图片, 在线 PDF 编辑">
 <meta name="author" content="Impressum">
 <meta name="robots" content="index, follow">
 <meta name="color-scheme" content="dark">
@@ -23,19 +23,20 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Impressum">
 <meta property="og:url" content="https://sign.vinaes.co/">
-<meta property="og:title" content="IMPRESSUM — картинки на PDF">
-<meta property="og:description" content="Добавьте картинку или подпись на PDF прямо в браузере. Без сервера: файлы не покидают ваш компьютер.">
+<meta property="og:title" content="IMPRESSUM — images on PDF">
+<meta property="og:description" content="Add an image or signature to a PDF right in your browser. No server: files never leave your computer.">
 <meta property="og:image" content="https://sign.vinaes.co/og.jpg">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
 <meta property="og:image:type" content="image/jpeg">
-<meta property="og:locale" content="ru_RU">
-<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:locale:alternate" content="zh_CN">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="IMPRESSUM — картинки на PDF">
-<meta name="twitter:description" content="Добавьте картинку или подпись на PDF прямо в браузере. Без сервера: файлы не покидают ваш компьютер.">
+<meta name="twitter:title" content="IMPRESSUM — images on PDF">
+<meta name="twitter:description" content="Add an image or signature to a PDF right in your browser. No server: files never leave your computer.">
 <meta name="twitter:image" content="https://sign.vinaes.co/og.jpg">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316171a'/%3E%3Crect x='14' y='12' width='28' height='36' fill='%23fff'/%3E%3Crect x='24' y='30' width='26' height='20' fill='%23ff4f12'/%3E%3C/svg%3E">
@@ -514,10 +515,35 @@ const I18N = {
     menuDel: 'Delete image',
     confirmDel: 'Delete this image?',
   },
+  zh: {
+    docTitle: 'IMPRESSUM — 在 PDF 上添加图片',
+    metaDesc: '直接在浏览器中为 PDF 添加图片或签名：拖入、用鼠标定位、保存。' +
+      '免费、无服务器——文件不会离开您的电脑。',
+    tagline: 'pdf + png/jpg · 本地处理',
+    openPdf: '打开 PDF',
+    addImg: '添加图片',
+    save: '保存 PDF',
+    saving: '保存中…',
+    pageOf: (cur, total) => `<b>${cur}</b> / ${total}`,
+    emptyTitle: '打开 PDF 文档',
+    emptyText: '点击顶部按钮，或将文件拖入窗口。<br>' +
+      '添加图片：按钮、拖入 PNG/JPG 文件，<br>' +
+      '或在页面目标位置<kbd>右键单击</kbd>。',
+    hint: '鼠标拖动 · <em>角点</em> — 缩放 · <em>✕</em> — 删除 · <em>esc</em> — 关闭菜单',
+    drop: '将 PDF 或图片拖放到此处',
+    menuPick: '选择图片…',
+    menuDel: '删除图片',
+    confirmDel: '删除这张图片？',
+  },
 };
 
-let lang = localStorage.getItem('lang')
-  || ((navigator.language || '').toLowerCase().startsWith('ru') ? 'ru' : 'en');
+const LANGS = ['en', 'ru', 'zh'];
+
+let lang = localStorage.getItem('lang');
+if (!LANGS.includes(lang)) {
+  const nav = (navigator.language || '').toLowerCase();
+  lang = nav.startsWith('ru') ? 'ru' : nav.startsWith('zh') ? 'zh' : 'en';
+}
 
 function t(key) { return I18N[lang][key]; }
 
@@ -545,18 +571,21 @@ function applyLang() {
   document.querySelector('meta[property="og:description"]').content = t('metaDesc');
   document.querySelector('meta[name="twitter:title"]').content = t('docTitle');
   document.querySelector('meta[name="twitter:description"]').content = t('metaDesc');
-  const other = lang === 'ru' ? 'en' : 'ru';
-  // в data-alt кладём альтернативную надпись: CSS резервирует под неё
-  // ширину, и кнопки не прыгают при переключении языка
-  els.brand.innerHTML = `Impressum<i>_</i><span>${t('tagline')}<i class="ghost">${I18N[other].tagline}</i></span>`;
+  // в data-alt кладём визуально самую широкую надпись из всех языков:
+  // CSS резервирует под неё ширину, и кнопки не прыгают при переключении.
+  // CJK-иероглифы считаем за два знака
+  const vw = s => [...s].reduce((n, c) => n + (c.charCodeAt(0) > 0x2e80 ? 2 : 1), 0);
+  const widest = strs => strs.reduce((a, b) => vw(b) > vw(a) ? b : a);
+  const all = key => LANGS.map(l => I18N[l][key]);
+  els.brand.innerHTML = `Impressum<i>_</i><span>${t('tagline')}<i class="ghost">${widest(all('tagline'))}</i></span>`;
   els.openPdfBtn.textContent = t('openPdf');
-  els.openPdfBtn.dataset.alt = I18N[other].openPdf;
+  els.openPdfBtn.dataset.alt = widest(all('openPdf'));
   els.addImgBtn.textContent = t('addImg');
-  els.addImgBtn.dataset.alt = I18N[other].addImg;
+  els.addImgBtn.dataset.alt = widest(all('addImg'));
   els.saveBtn.textContent = t('save');
-  els.saveBtn.dataset.alt = [I18N.ru.save, I18N.en.save, I18N.ru.saving, I18N.en.saving]
-    .reduce((a, b) => b.length > a.length ? b : a);
-  els.langBtn.textContent = lang === 'ru' ? 'EN' : 'RU';
+  els.saveBtn.dataset.alt = widest(all('save').concat(all('saving')));
+  els.langBtn.textContent = lang === 'zh' ? '中文' : lang.toUpperCase();
+  els.langBtn.dataset.alt = '中文';
   document.querySelector('#empty h2').textContent = t('emptyTitle');
   document.querySelector('#empty p').innerHTML = t('emptyText');
   els.hint.innerHTML = t('hint');
@@ -565,7 +594,7 @@ function applyLang() {
 }
 
 els.langBtn.onclick = () => {
-  lang = lang === 'ru' ? 'en' : 'ru';
+  lang = LANGS[(LANGS.indexOf(lang) + 1) % LANGS.length];
   localStorage.setItem('lang', lang);
   applyLang();
 };
