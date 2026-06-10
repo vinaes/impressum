@@ -105,6 +105,13 @@
     font-style: normal;
     color: var(--accent);
   }
+  header h1 span i.ghost {
+    display: block;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    font-style: normal;
+  }
   header h1 span {
     font-family: var(--mono);
     font-size: 10px;
@@ -130,6 +137,16 @@
     padding: 9px 16px;
     cursor: pointer;
     transition: border-color .12s, color .12s, background .12s;
+  }
+  /* невидимая копия самого длинного варианта надписи —
+     ширина кнопки не меняется при переключении языка */
+  .btn::after {
+    content: attr(data-alt);
+    display: block;
+    height: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .btn:hover:not(:disabled) { border-color: var(--accent); color: #fff; }
   .btn:active:not(:disabled) { background: var(--panel-2); }
@@ -461,7 +478,7 @@ const I18N = {
     docTitle: 'IMPRESSUM — картинки на PDF',
     metaDesc: 'Добавьте картинку или подпись на PDF прямо в браузере: перетащите, ' +
       'разместите мышкой, сохраните. Бесплатно, без сервера — файлы не покидают ваш компьютер.',
-    brand: 'Impressum<i>_</i><span>pdf + png/jpg · локально</span>',
+    tagline: 'pdf + png/jpg · локально',
     openPdf: 'Открыть PDF',
     addImg: 'Добавить картинку',
     save: 'Сохранить PDF',
@@ -481,7 +498,7 @@ const I18N = {
     docTitle: 'IMPRESSUM — images on PDF',
     metaDesc: 'Add an image or signature to a PDF right in your browser: drag it in, ' +
       'position it with the mouse, save. Free, no server — files never leave your computer.',
-    brand: 'Impressum<i>_</i><span>pdf + png/jpg · local only</span>',
+    tagline: 'pdf + png/jpg · local only',
     openPdf: 'Open PDF',
     addImg: 'Add image',
     save: 'Save PDF',
@@ -528,10 +545,17 @@ function applyLang() {
   document.querySelector('meta[property="og:description"]').content = t('metaDesc');
   document.querySelector('meta[name="twitter:title"]').content = t('docTitle');
   document.querySelector('meta[name="twitter:description"]').content = t('metaDesc');
-  els.brand.innerHTML = t('brand');
+  const other = lang === 'ru' ? 'en' : 'ru';
+  // в data-alt кладём альтернативную надпись: CSS резервирует под неё
+  // ширину, и кнопки не прыгают при переключении языка
+  els.brand.innerHTML = `Impressum<i>_</i><span>${t('tagline')}<i class="ghost">${I18N[other].tagline}</i></span>`;
   els.openPdfBtn.textContent = t('openPdf');
+  els.openPdfBtn.dataset.alt = I18N[other].openPdf;
   els.addImgBtn.textContent = t('addImg');
+  els.addImgBtn.dataset.alt = I18N[other].addImg;
   els.saveBtn.textContent = t('save');
+  els.saveBtn.dataset.alt = [I18N.ru.save, I18N.en.save, I18N.ru.saving, I18N.en.saving]
+    .reduce((a, b) => b.length > a.length ? b : a);
   els.langBtn.textContent = lang === 'ru' ? 'EN' : 'RU';
   document.querySelector('#empty h2').textContent = t('emptyTitle');
   document.querySelector('#empty p').innerHTML = t('emptyText');
