@@ -1,0 +1,24 @@
+# Impressum
+
+> Impressum (https://sign.vinaes.co/) is a free, client-side web tool that adds images and signatures to PDF files directly in the browser. Files are processed locally with pdf.js and pdf-lib and never leave the user's device — there is no server upload, no account, and no watermark.
+
+## What it does
+
+- Place a PNG or JPG image (e.g. a scanned signature or a stamp) anywhere on any page of a PDF.
+- Drag to position, resize from the corner, delete with one click; multiple images and multi-page PDFs are supported.
+- Save the result as a new PDF file, downloaded straight from the browser.
+
+## Key facts
+
+- 100% client-side: the PDF and images are processed in the browser via pdf.js (rendering) and pdf-lib (editing). No file is ever uploaded to a server.
+- Free, no registration, no watermark, no file size or usage limits beyond the device's own memory.
+- Works on desktop and mobile browsers; supports drag-and-drop and right-click (long-press on touch) placement.
+- Interface languages: English, Russian, Chinese.
+- Input: one PDF + any number of PNG/JPG images. Output: a flattened PDF with the images drawn onto the pages.
+- It places a visual image (a "wet ink" style signature or stamp); it does not create cryptographic/digital signatures.
+
+## Common use cases
+
+- Signing a contract or form by placing a photographed/scanned handwritten signature on a PDF.
+- Stamping documents with a company seal image.
+- Adding logos or pictures to existing PDF pages without desktop software.

@@ -39,6 +39,68 @@
 <meta name="twitter:description" content="Add an image or signature to a PDF right in your browser. No server: files never leave your computer.">
 <meta name="twitter:image" content="https://sign.vinaes.co/og.jpg">
 
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Impressum",
+  "url": "https://sign.vinaes.co/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript",
+  "inLanguage": ["en", "ru", "zh"],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free client-side tool that adds images and signatures to PDF files directly in the browser. Files are processed locally and never leave your computer.",
+  "featureList": [
+    "Place PNG/JPG images and signatures on any page of a PDF",
+    "100% client-side processing — files are never uploaded to a server",
+    "Drag to position, resize, multi-page and multi-image support",
+    "Free, no registration, no watermark",
+    "Works on desktop and mobile browsers"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I add a signature or image to a PDF?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Open your PDF with the header button or drag it into the window, then add a PNG or JPG image — with the Add image button, by dropping the file in, or by right-clicking the exact spot on the page. Drag the image to position it, resize it from the corner, then press Save PDF to download the result." }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my files uploaded to a server?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Impressum is 100% client-side: the PDF and images are processed in your browser by pdf.js and pdf-lib and never leave your computer. There is no server upload, no account and no tracking of your documents." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Impressum free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — completely free, with no registration, no watermark and no limits on the number or size of files beyond your device's own memory." }
+    },
+    {
+      "@type": "Question",
+      "name": "What file formats are supported?",
+      "acceptedAnswer": { "@type": "Answer", "text": "One PDF plus any number of PNG or JPG images. Multi-page documents are supported and each image can be placed on any page. The result is saved as a new PDF file." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on a phone or tablet?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Impressum works in mobile browsers: long-press replaces right-click for placing an image, and images can be dragged and resized with touch." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this a cryptographic digital signature?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Impressum places a visual image of your signature or stamp on the page, like wet ink. It does not create cryptographic digital signatures or certificates." }
+    }
+  ]
+}
+</script>
+
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316171a'/%3E%3Crect x='14' y='12' width='28' height='36' fill='%23fff'/%3E%3Crect x='24' y='30' width='26' height='20' fill='%23ff4f12'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -324,6 +386,50 @@
     justify-content: space-between;
   }
 
+  #about {
+    max-width: 640px;
+    margin: 56px auto 90px;
+    padding: 0 24px;
+    animation: sheetIn .4s ease-out both;
+  }
+  #about h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    margin-bottom: 14px;
+  }
+  #about > p {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+  #about .faqLabel {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 10px;
+    margin-bottom: 26px;
+  }
+  #about h3 {
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  #about h3::before {
+    content: "— ";
+    color: var(--accent);
+  }
+  #about .faq p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-dim);
+    margin-bottom: 26px;
+  }
+
   #hint {
     position: fixed;
     bottom: 0;
@@ -464,6 +570,38 @@
 
 <div id="viewer"></div>
 
+<section id="about">
+  <h2>Add an image or signature to a PDF — free, in your browser</h2>
+  <p>Impressum is a free client-side tool that places PNG or JPG images — a scanned signature,
+  a stamp, a logo — onto the pages of a PDF document. Everything happens locally in your
+  browser using pdf.js and pdf-lib: files are never uploaded to a server, there is no
+  registration and no watermark.</p>
+  <div class="faqLabel">FAQ</div>
+  <div class="faq">
+    <h3>How do I add a signature or image to a PDF?</h3>
+    <p>Open your PDF with the header button or drag it into the window, then add a PNG or JPG
+    image — with the Add image button, by dropping the file in, or by right-clicking the exact
+    spot on the page. Drag the image to position it, resize it from the corner, then press
+    Save PDF to download the result.</p>
+    <h3>Are my files uploaded to a server?</h3>
+    <p>No. Impressum is 100% client-side: the PDF and images are processed in your browser by
+    pdf.js and pdf-lib and never leave your computer. There is no server upload, no account
+    and no tracking of your documents.</p>
+    <h3>Is Impressum free?</h3>
+    <p>Yes — completely free, with no registration, no watermark and no limits on the number
+    or size of files beyond your device's own memory.</p>
+    <h3>What file formats are supported?</h3>
+    <p>One PDF plus any number of PNG or JPG images. Multi-page documents are supported and
+    each image can be placed on any page. The result is saved as a new PDF file.</p>
+    <h3>Does it work on a phone or tablet?</h3>
+    <p>Yes. Impressum works in mobile browsers: long-press replaces right-click for placing
+    an image, and images can be dragged and resized with touch.</p>
+    <h3>Is this a cryptographic digital signature?</h3>
+    <p>No. Impressum places a visual image of your signature or stamp on the page, like wet
+    ink. It does not create cryptographic digital signatures or certificates.</p>
+  </div>
+</section>
+
 <div id="hint"></div>
 
 <div id="dropZone"><div></div></div>
@@ -494,6 +632,35 @@ const I18N = {
     menuPick: 'Выбрать картинку…',
     menuDel: 'Удалить картинку',
     confirmDel: 'Удалить картинку?',
+    aboutTitle: 'Картинка или подпись на PDF — бесплатно, в браузере',
+    aboutText: 'Impressum — бесплатный инструмент, который размещает PNG- и JPG-изображения — ' +
+      'скан подписи, печать, логотип — на страницах PDF-документа. Всё происходит локально ' +
+      'в вашем браузере через pdf.js и pdf-lib: файлы не загружаются на сервер, ' +
+      'нет регистрации и водяных знаков.',
+    faqLabel: 'Вопросы и ответы',
+    faq: [
+      ['Как добавить подпись или картинку в PDF?',
+       'Откройте PDF кнопкой в шапке или перетащите его в окно, затем добавьте PNG или JPG — ' +
+       'кнопкой «Добавить картинку», перетаскиванием файла или кликом ПКМ по нужному месту ' +
+       'страницы. Разместите картинку мышкой, измените размер за уголок и нажмите «Сохранить PDF».'],
+      ['Файлы загружаются на сервер?',
+       'Нет. Impressum работает полностью на стороне клиента: PDF и картинки обрабатываются ' +
+       'в браузере библиотеками pdf.js и pdf-lib и не покидают ваш компьютер. Нет загрузки ' +
+       'на сервер, аккаунтов и отслеживания документов.'],
+      ['Это бесплатно?',
+       'Да — полностью бесплатно, без регистрации, водяных знаков и ограничений на количество ' +
+       'и размер файлов (кроме памяти вашего устройства).'],
+      ['Какие форматы поддерживаются?',
+       'Один PDF и любое количество PNG- или JPG-изображений. Многостраничные документы ' +
+       'поддерживаются, каждую картинку можно разместить на любой странице. Результат ' +
+       'сохраняется новым PDF-файлом.'],
+      ['Работает на телефоне?',
+       'Да. Impressum работает в мобильных браузерах: долгое нажатие заменяет ПКМ для ' +
+       'размещения картинки, перемещать и масштабировать можно пальцем.'],
+      ['Это криптографическая электронная подпись?',
+       'Нет. Impressum размещает на странице визуальное изображение подписи или печати — ' +
+       'как чернила. Криптографические цифровые подписи и сертификаты не создаются.'],
+    ],
   },
   en: {
     docTitle: 'IMPRESSUM — images on PDF',
@@ -514,6 +681,35 @@ const I18N = {
     menuPick: 'Choose an image…',
     menuDel: 'Delete image',
     confirmDel: 'Delete this image?',
+    aboutTitle: 'Add an image or signature to a PDF — free, in your browser',
+    aboutText: 'Impressum is a free client-side tool that places PNG or JPG images — a scanned ' +
+      'signature, a stamp, a logo — onto the pages of a PDF document. Everything happens ' +
+      'locally in your browser using pdf.js and pdf-lib: files are never uploaded to a server, ' +
+      'there is no registration and no watermark.',
+    faqLabel: 'FAQ',
+    faq: [
+      ['How do I add a signature or image to a PDF?',
+       'Open your PDF with the header button or drag it into the window, then add a PNG or JPG ' +
+       'image — with the Add image button, by dropping the file in, or by right-clicking the ' +
+       'exact spot on the page. Drag the image to position it, resize it from the corner, then ' +
+       'press Save PDF to download the result.'],
+      ['Are my files uploaded to a server?',
+       'No. Impressum is 100% client-side: the PDF and images are processed in your browser by ' +
+       'pdf.js and pdf-lib and never leave your computer. There is no server upload, no account ' +
+       'and no tracking of your documents.'],
+      ['Is Impressum free?',
+       'Yes — completely free, with no registration, no watermark and no limits on the number ' +
+       'or size of files beyond your device\'s own memory.'],
+      ['What file formats are supported?',
+       'One PDF plus any number of PNG or JPG images. Multi-page documents are supported and ' +
+       'each image can be placed on any page. The result is saved as a new PDF file.'],
+      ['Does it work on a phone or tablet?',
+       'Yes. Impressum works in mobile browsers: long-press replaces right-click for placing ' +
+       'an image, and images can be dragged and resized with touch.'],
+      ['Is this a cryptographic digital signature?',
+       'No. Impressum places a visual image of your signature or stamp on the page, like wet ' +
+       'ink. It does not create cryptographic digital signatures or certificates.'],
+    ],
   },
   zh: {
     docTitle: 'IMPRESSUM — 在 PDF 上添加图片',
@@ -534,6 +730,30 @@ const I18N = {
     menuPick: '选择图片…',
     menuDel: '删除图片',
     confirmDel: '删除这张图片？',
+    aboutTitle: '在 PDF 上添加图片或签名 — 免费、纯浏览器',
+    aboutText: 'Impressum 是一款免费的纯客户端工具，可将 PNG 或 JPG 图片——扫描的签名、印章、' +
+      '徽标——放置到 PDF 文档的页面上。一切都通过 pdf.js 和 pdf-lib 在您的浏览器中本地完成：' +
+      '文件不会上传到服务器，无需注册，没有水印。',
+    faqLabel: '常见问题',
+    faq: [
+      ['如何在 PDF 中添加签名或图片？',
+       '点击顶部按钮打开 PDF，或将其拖入窗口；然后添加 PNG/JPG 图片——使用「添加图片」按钮、' +
+       '拖入文件，或在页面目标位置右键单击。用鼠标拖动定位，拖动角点缩放，最后点击「保存 PDF」' +
+       '下载结果。'],
+      ['文件会上传到服务器吗？',
+       '不会。Impressum 完全在客户端运行：PDF 和图片由浏览器中的 pdf.js 和 pdf-lib 处理，' +
+       '不会离开您的电脑。没有服务器上传、没有账户、也不会追踪您的文档。'],
+      ['Impressum 免费吗？',
+       '是的——完全免费，无需注册，没有水印，除设备内存外对文件数量和大小没有限制。'],
+      ['支持哪些文件格式？',
+       '一个 PDF 加任意数量的 PNG 或 JPG 图片。支持多页文档，每张图片可放置在任意页面上。' +
+       '结果保存为新的 PDF 文件。'],
+      ['手机或平板上能用吗？',
+       '可以。Impressum 支持移动浏览器：长按代替右键放置图片，可用手指拖动和缩放。'],
+      ['这是加密数字签名吗？',
+       '不是。Impressum 在页面上放置签名或印章的可视图像，如同墨迹。它不会创建加密数字签名' +
+       '或证书。'],
+    ],
   },
 };
 
@@ -588,6 +808,11 @@ function applyLang() {
   els.langBtn.dataset.alt = '中文';
   document.querySelector('#empty h2').textContent = t('emptyTitle');
   document.querySelector('#empty p').innerHTML = t('emptyText');
+  document.querySelector('#about h2').textContent = t('aboutTitle');
+  document.querySelector('#about > p').textContent = t('aboutText');
+  document.querySelector('#about .faqLabel').textContent = t('faqLabel');
+  document.querySelector('#about .faq').innerHTML = t('faq')
+    .map(([q, a]) => `<h3>${q}</h3><p>${a}</p>`).join('');
   els.hint.innerHTML = t('hint');
   els.dropZone.firstElementChild.textContent = t('drop');
   updatePageInfo();
@@ -631,6 +856,7 @@ async function loadPdf(file) {
   stamps.length = 0;
   selectedId = null;
   els.empty.style.display = 'none';
+  document.getElementById('about').style.display = 'none';
   els.addImgBtn.disabled = false;
   els.saveBtn.disabled = false;
   await renderAllPages();
