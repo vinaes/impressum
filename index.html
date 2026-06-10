@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMPRESSUM — картинки на PDF</title>
+
+<!-- SEO -->
+<meta name="description" content="Добавьте картинку или подпись на PDF прямо в браузере: перетащите, разместите мышкой, сохраните. Бесплатно, без сервера — файлы не покидают ваш компьютер.">
+<meta name="keywords" content="pdf, подпись, картинка на pdf, штамп, печать, добавить изображение в pdf, sign pdf, stamp pdf, add image to pdf, pdf editor online, client-side">
+<meta name="author" content="Impressum">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#16171a">
+<meta name="application-name" content="Impressum">
+<meta name="apple-mobile-web-app-title" content="Impressum">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link rel="canonical" href="https://sign.vinaes.co/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Impressum">
+<meta property="og:url" content="https://sign.vinaes.co/">
+<meta property="og:title" content="IMPRESSUM — картинки на PDF">
+<meta property="og:description" content="Добавьте картинку или подпись на PDF прямо в браузере. Без сервера: файлы не покидают ваш компьютер.">
+<meta property="og:image" content="https://sign.vinaes.co/og.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IMPRESSUM — картинки на PDF">
+<meta name="twitter:description" content="Добавьте картинку или подпись на PDF прямо в браузере. Без сервера: файлы не покидают ваш компьютер.">
+<meta name="twitter:image" content="https://sign.vinaes.co/og.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316171a'/%3E%3Crect x='14' y='12' width='28' height='36' fill='%23fff'/%3E%3Crect x='24' y='30' width='26' height='20' fill='%23ff4f12'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1012;
+    --bg-grid: rgba(255,255,255,.035);
+    --panel: #16171a;
+    --panel-2: #1d1f23;
+    --hairline: #2a2d32;
+    --hairline-2: #3a3e45;
+    --text: #e8e9ea;
+    --text-dim: #8b8f96;
+    --accent: #ff4f12;
+    --accent-down: #d93f0a;
+    --mono: "JetBrains Mono", monospace;
+    --sans: "Golos Text", sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scrollbar-color: #3a3e45 var(--bg); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #33373d; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: #43484f; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0 / 100% 36px,
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0 / 36px 100%,
+      var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  ::selection { background: var(--accent); color: #000; }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    min-height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--panel);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  header h1 {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+  header h1 i {
+    font-style: normal;
+    color: var(--accent);
+  }
+  header h1 span {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .08em;
+    color: var(--text-dim);
+    text-transform: none;
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 1px solid var(--hairline-2);
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--hairline-2);
+    border-radius: 2px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: border-color .12s, color .12s, background .12s;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--accent); color: #fff; }
+  .btn:active:not(:disabled) { background: var(--panel-2); }
+  .btn:disabled { opacity: .3; cursor: default; }
+  .btn:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+  .btn.primary {
+    margin-left: auto;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+  .btn.primary:hover:not(:disabled) {
+    background: var(--accent-down);
+    border-color: var(--accent-down);
+    color: #000;
+  }
+  .btn.primary:active:not(:disabled) { background: var(--accent-down); }
+
+  #pageInfo {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--text-dim);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    background: var(--bg);
+    padding: 8px 14px;
+    display: none;
+    white-space: nowrap;
+  }
+  #pageInfo b { color: var(--accent); font-weight: 500; }
+
+  #viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 36px 16px 100px;
+  }
+
+  .pageWrap {
+    position: relative;
+    background: #fff;
+    outline: 1px solid #000;
+    box-shadow: 0 2px 6px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.55);
+    animation: sheetIn .35s ease-out both;
+  }
+  @keyframes sheetIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .pageWrap canvas { display: block; background: #fff; }
+
+  .pageWrap .pageNum {
+    position: absolute;
+    top: 0;
+    left: -54px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: .06em;
+  }
+  .pageWrap .pageNum::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--hairline-2);
+    margin-top: 6px;
+  }
+
+  .overlay { position: absolute; inset: 0; }
+
+  .stamp {
+    position: absolute;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+  }
+  .stamp img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+  .stamp.selected { outline: 1px dashed var(--accent); outline-offset: 2px; }
+  .stamp .handle {
+    position: absolute;
+    right: -7px;
+    bottom: -7px;
+    width: 13px;
+    height: 13px;
+    background: var(--accent);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    cursor: nwse-resize;
+    display: none;
+  }
+  .stamp .del {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 22px;
+    height: 22px;
+    background: #0f1012;
+    color: #fff;
+    border: 1px solid var(--hairline-2);
+    border-radius: 2px;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,.4);
+    display: none;
+    transition: background .12s, border-color .12s;
+  }
+  .stamp .del:hover { background: var(--accent); border-color: var(--accent); color: #000; }
+  .stamp.selected .handle, .stamp.selected .del { display: block; }
+
+  #empty {
+    position: relative;
+    max-width: 540px;
+    margin: 14vh auto 0;
+    padding: 52px 48px;
+    border: 1px solid var(--hairline);
+    background: color-mix(in srgb, var(--panel) 65%, transparent);
+    animation: sheetIn .4s ease-out both;
+  }
+  /* угловые засечки рамки */
+  #empty::before, #empty::after,
+  #empty .tick::before, #empty .tick::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 0 solid var(--accent);
+  }
+  #empty::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  #empty::after { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  #empty .tick::before { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  #empty .tick::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  #empty h2 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    margin-bottom: 16px;
+  }
+  #empty p {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-dim);
+  }
+  #empty kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    border: 1px solid var(--hairline-2);
+    border-radius: 2px;
+    padding: 2px 6px;
+    background: var(--bg);
+  }
+  #empty .meta {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #hint {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--panel);
+    border-top: 1px solid var(--hairline);
+    padding: 9px 20px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    display: none;
+    animation: hintIn .3s ease-out both;
+  }
+  @keyframes hintIn {
+    from { transform: translateY(100%); }
+    to   { transform: none; }
+  }
+  #hint em { font-style: normal; color: var(--accent); }
+
+  #ctxMenu {
+    position: fixed;
+    z-index: 300;
+    min-width: 220px;
+    background: var(--panel);
+    border: 1px solid var(--hairline-2);
+    border-radius: 2px;
+    padding: 4px;
+    box-shadow: 0 12px 32px rgba(0,0,0,.6);
+    display: none;
+  }
+  #ctxMenu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    padding: 9px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  #ctxMenu button:hover { background: var(--panel-2); }
+  #ctxMenu button.danger { color: var(--accent); }
+  #ctxMenu button.danger:hover { background: rgba(255,79,18,.12); }
+
+  #dropZone {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15,16,18,.88);
+    pointer-events: none;
+  }
+  #dropZone div {
+    border: 1px dashed var(--accent);
+    padding: 48px 80px;
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* подавляем лупу/выделение при долгом тапе по странице */
+  #viewer {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* номера листов не помещаются рядом со страницей */
+  @media (max-width: 1020px) {
+    .pageWrap .pageNum { display: none; }
+  }
+
+  /* компактная шапка */
+  @media (max-width: 720px) {
+    header { gap: 6px; padding: 8px 10px; }
+    header h1 { font-size: 13px; margin-right: 2px; }
+    header h1 span { display: none; }
+    .btn { padding: 8px 11px; font-size: 10px; letter-spacing: .05em; }
+    #pageInfo { padding: 7px 10px; font-size: 11px; }
+    #empty { margin: 8vh 16px 0; padding: 36px 24px; }
+    #empty h2 { font-size: 21px; }
+    #hint { font-size: 9.5px; padding: 8px 10px; }
+    #dropZone div { padding: 32px 28px; font-size: 13px; text-align: center; }
+  }
+
+  /* пальцу нужны цели побольше */
+  @media (pointer: coarse) {
+    .stamp .handle {
+      width: 24px;
+      height: 24px;
+      right: -12px;
+      bottom: -12px;
+    }
+    .stamp .del {
+      width: 32px;
+      height: 32px;
+      top: -16px;
+      right: -16px;
+      font-size: 15px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="brand"></h1>
+  <button class="btn" id="openPdfBtn"></button>
+  <button class="btn" id="addImgBtn" disabled></button>
+  <span id="pageInfo"></span>
+  <button class="btn primary" id="saveBtn" disabled></button>
+  <button class="btn" id="langBtn" title="Language"></button>
+</header>
+
+<input type="file" id="pdfInput" accept="application/pdf" hidden>
+<input type="file" id="imgInput" accept="image/png,image/jpeg" hidden>
+
+<div id="empty">
+  <span class="tick"></span>
+  <h2></h2>
+  <p></p>
+  <div class="meta"><span>client-side only</span><span>pdf.js / pdf-lib</span></div>
+</div>
+
+<div id="viewer"></div>
+
+<div id="hint"></div>
+
+<div id="dropZone"><div></div></div>
+
+<div id="ctxMenu"></div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const I18N = {
+  ru: {
+    docTitle: 'IMPRESSUM — картинки на PDF',
+    metaDesc: 'Добавьте картинку или подпись на PDF прямо в браузере: перетащите, ' +
+      'разместите мышкой, сохраните. Бесплатно, без сервера — файлы не покидают ваш компьютер.',
+    brand: 'Impressum<i>_</i><span>pdf + png/jpg · локально</span>',
+    openPdf: 'Открыть PDF',
+    addImg: 'Добавить картинку',
+    save: 'Сохранить PDF',
+    saving: 'Сохраняю…',
+    pageOf: (cur, total) => `<b>${cur}</b> / ${total}`,
+    emptyTitle: 'Откройте PDF-документ',
+    emptyText: 'Кнопкой в шапке или перетащите файл в окно.<br>' +
+      'Картинки добавляются кнопкой, перетаскиванием PNG/JPG<br>' +
+      'или через <kbd>ПКМ</kbd> по нужному месту страницы.',
+    hint: 'тяните мышкой · <em>уголок</em> — размер · <em>✕</em> — удалить · <em>esc</em> — закрыть меню',
+    drop: 'Бросьте PDF или картинку',
+    menuPick: 'Выбрать картинку…',
+    menuDel: 'Удалить картинку',
+    confirmDel: 'Удалить картинку?',
+  },
+  en: {
+    docTitle: 'IMPRESSUM — images on PDF',
+    metaDesc: 'Add an image or signature to a PDF right in your browser: drag it in, ' +
+      'position it with the mouse, save. Free, no server — files never leave your computer.',
+    brand: 'Impressum<i>_</i><span>pdf + png/jpg · local only</span>',
+    openPdf: 'Open PDF',
+    addImg: 'Add image',
+    save: 'Save PDF',
+    saving: 'Saving…',
+    pageOf: (cur, total) => `<b>${cur}</b> / ${total}`,
+    emptyTitle: 'Open a PDF document',
+    emptyText: 'Use the header button or drag a file into the window.<br>' +
+      'Add images with the button, by dropping a PNG/JPG,<br>' +
+      'or via <kbd>right-click</kbd> at the target spot on a page.',
+    hint: 'drag with mouse · <em>corner</em> — resize · <em>✕</em> — delete · <em>esc</em> — close menu',
+    drop: 'Drop a PDF or an image',
+    menuPick: 'Choose an image…',
+    menuDel: 'Delete image',
+    confirmDel: 'Delete this image?',
+  },
+};
+
+let lang = localStorage.getItem('lang')
+  || ((navigator.language || '').toLowerCase().startsWith('ru') ? 'ru' : 'en');
+
+function t(key) { return I18N[lang][key]; }
+
+const els = {
+  pdfInput: document.getElementById('pdfInput'),
+  imgInput: document.getElementById('imgInput'),
+  openPdfBtn: document.getElementById('openPdfBtn'),
+  addImgBtn: document.getElementById('addImgBtn'),
+  saveBtn: document.getElementById('saveBtn'),
+  pageInfo: document.getElementById('pageInfo'),
+  viewer: document.getElementById('viewer'),
+  empty: document.getElementById('empty'),
+  hint: document.getElementById('hint'),
+  dropZone: document.getElementById('dropZone'),
+  ctxMenu: document.getElementById('ctxMenu'),
+  brand: document.getElementById('brand'),
+  langBtn: document.getElementById('langBtn'),
+};
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = t('docTitle');
+  document.querySelector('meta[name="description"]').content = t('metaDesc');
+  document.querySelector('meta[property="og:title"]').content = t('docTitle');
+  document.querySelector('meta[property="og:description"]').content = t('metaDesc');
+  document.querySelector('meta[name="twitter:title"]').content = t('docTitle');
+  document.querySelector('meta[name="twitter:description"]').content = t('metaDesc');
+  els.brand.innerHTML = t('brand');
+  els.openPdfBtn.textContent = t('openPdf');
+  els.addImgBtn.textContent = t('addImg');
+  els.saveBtn.textContent = t('save');
+  els.langBtn.textContent = lang === 'ru' ? 'EN' : 'RU';
+  document.querySelector('#empty h2').textContent = t('emptyTitle');
+  document.querySelector('#empty p').innerHTML = t('emptyText');
+  els.hint.innerHTML = t('hint');
+  els.dropZone.firstElementChild.textContent = t('drop');
+  updatePageInfo();
+}
+
+els.langBtn.onclick = () => {
+  lang = lang === 'ru' ? 'en' : 'ru';
+  localStorage.setItem('lang', lang);
+  applyLang();
+};
+
+let pdfBytes = null;      // исходный файл (для pdf-lib)
+let pdfDoc = null;        // документ pdf.js
+let pdfName = 'document';
+
+// Для каждой страницы (индекс с 0): { wrap, canvas, overlay, scale, w, h }
+// w/h — размер страницы в PDF-пунктах
+let pageViews = [];
+
+// Загруженные картинки: { id, dataUrl, bytes, type, w, h }
+const images = [];
+// Размещения: { id, imgId, page, x, y, w, h } — page с 1, координаты
+// в PDF-пунктах, начало в левом верхнем углу страницы
+const stamps = [];
+let nextId = 1;
+let selectedId = null;
+
+// ---------- загрузка PDF ----------
+
+els.openPdfBtn.onclick = () => els.pdfInput.click();
+els.pdfInput.onchange = e => {
+  if (e.target.files[0]) loadPdf(e.target.files[0]);
+  els.pdfInput.value = '';
+};
+
+async function loadPdf(file) {
+  pdfName = file.name.replace(/\.pdf$/i, '');
+  pdfBytes = new Uint8Array(await file.arrayBuffer());
+  // pdf.js забирает переданный буфер себе, поэтому отдаём копию
+  pdfDoc = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
+  stamps.length = 0;
+  selectedId = null;
+  els.empty.style.display = 'none';
+  els.addImgBtn.disabled = false;
+  els.saveBtn.disabled = false;
+  await renderAllPages();
+}
+
+async function renderAllPages() {
+  els.viewer.innerHTML = '';
+  pageViews = [];
+  const maxW = Math.min(900, window.innerWidth - 32);
+  const dpr = window.devicePixelRatio || 1;
+
+  for (let n = 1; n <= pdfDoc.numPages; n++) {
+    const page = await pdfDoc.getPage(n);
+    const base = page.getViewport({ scale: 1 });
+    const scale = maxW / base.width;
+    const viewport = page.getViewport({ scale });
+
+    const wrap = document.createElement('div');
+    wrap.className = 'pageWrap';
+    wrap.dataset.page = n;
+    const canvas = document.createElement('canvas');
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    const num = document.createElement('div');
+    num.className = 'pageNum';
+    num.textContent = String(n).padStart(2, '0');
+    wrap.append(canvas, overlay, num);
+    els.viewer.appendChild(wrap);
+
+    canvas.width = viewport.width * dpr;
+    canvas.height = viewport.height * dpr;
+    canvas.style.width = viewport.width + 'px';
+    canvas.style.height = viewport.height + 'px';
+
+    canvas.addEventListener('pointerdown', () => {
+      selectedId = null;
+      renderStamps();
+    });
+
+    pageViews.push({ wrap, canvas, overlay, scale, w: base.width, h: base.height });
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    await page.render({ canvasContext: ctx, viewport }).promise;
+  }
+  els.pageInfo.style.display = 'inline-block';
+  updatePageInfo();
+  renderStamps();
+}
+
+function updatePageInfo() {
+  if (!pdfDoc) return;
+  const total = String(pdfDoc.numPages).padStart(2, '0');
+  const cur = String(visiblePage()).padStart(2, '0');
+  els.pageInfo.innerHTML = t('pageOf')(cur, total);
+}
+
+let scrollTicking = false;
+window.addEventListener('scroll', () => {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(() => {
+    updatePageInfo();
+    scrollTicking = false;
+  });
+}, { passive: true });
+
+// Страница, чей центр сейчас ближе всего к центру окна, —
+// на неё ставится новая картинка
+function visiblePage() {
+  const mid = window.innerHeight / 2;
+  let best = 1, bestDist = Infinity;
+  pageViews.forEach((pv, i) => {
+    const r = pv.wrap.getBoundingClientRect();
+    const dist = Math.abs((r.top + r.bottom) / 2 - mid);
+    if (dist < bestDist) { bestDist = dist; best = i + 1; }
+  });
+  return best;
+}
+
+// ---------- добавление картинки ----------
+
+// Куда ставить следующую выбранную картинку: {page, x, y} в PDF-пунктах
+// (точка клика ПКМ — центр картинки) или null — центр видимой страницы
+let pendingPlace = null;
+
+els.addImgBtn.onclick = () => {
+  pendingPlace = null;
+  els.imgInput.click();
+};
+els.imgInput.onchange = e => {
+  if (e.target.files[0]) addImageFile(e.target.files[0]);
+  els.imgInput.value = '';
+};
+
+async function addImageFile(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const dataUrl = await new Promise(res => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.readAsDataURL(file);
+  });
+  const dims = await new Promise(res => {
+    const im = new Image();
+    im.onload = () => res({ w: im.naturalWidth, h: im.naturalHeight });
+    im.src = dataUrl;
+  });
+  const img = {
+    id: nextId++,
+    dataUrl, bytes,
+    type: file.type === 'image/png' ? 'png' : 'jpg',
+    w: dims.w, h: dims.h,
+  };
+  images.push(img);
+
+  // ширина ~40% страницы; центр — точка ПКМ либо середина видимой страницы
+  const pageN = pendingPlace ? pendingPlace.page : visiblePage();
+  const pv = pageViews[pageN - 1];
+  const w = pv.w * 0.4;
+  const h = w * img.h / img.w;
+  const cx = pendingPlace ? pendingPlace.x : pv.w / 2;
+  const cy = pendingPlace ? pendingPlace.y : pv.h / 2;
+  pendingPlace = null;
+  const stamp = {
+    id: nextId++, imgId: img.id, page: pageN,
+    x: Math.min(Math.max(cx - w / 2, -w / 2), pv.w - w / 2),
+    y: Math.min(Math.max(cy - h / 2, -h / 2), pv.h - h / 2),
+    w, h,
+  };
+  stamps.push(stamp);
+  selectedId = stamp.id;
+  renderStamps();
+  els.hint.style.display = 'block';
+}
+
+// ---------- контекстное меню ----------
+
+function showMenu(x, y, items) {
+  els.ctxMenu.innerHTML = '';
+  for (const it of items) {
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    if (it.danger) b.className = 'danger';
+    b.onclick = () => { hideMenu(); it.fn(); };
+    els.ctxMenu.appendChild(b);
+  }
+  els.ctxMenu.style.display = 'block';
+  // не вылезать за край окна
+  const mw = els.ctxMenu.offsetWidth, mh = els.ctxMenu.offsetHeight;
+  els.ctxMenu.style.left = Math.min(x, window.innerWidth - mw - 8) + 'px';
+  els.ctxMenu.style.top = Math.min(y, window.innerHeight - mh - 8) + 'px';
+}
+
+function hideMenu() {
+  els.ctxMenu.style.display = 'none';
+}
+
+function openPageMenu(clientX, clientY, pageN, stampId) {
+  const pv = pageViews[pageN - 1];
+  const r = pv.wrap.getBoundingClientRect();
+  const px = (clientX - r.left) / pv.scale;
+  const py = (clientY - r.top) / pv.scale;
+
+  const items = [{
+    label: t('menuPick'),
+    fn: () => { pendingPlace = { page: pageN, x: px, y: py }; els.imgInput.click(); },
+  }];
+  if (stampId != null) {
+    items.push({
+      label: t('menuDel'),
+      danger: true,
+      fn: () => deleteStamp(stampId),
+    });
+  }
+  showMenu(clientX, clientY, items);
+}
+
+let nativeCtxFired = false;
+
+els.viewer.addEventListener('contextmenu', e => {
+  nativeCtxFired = true;
+  const wrap = e.target.closest('.pageWrap');
+  if (!wrap || !pdfDoc) return;
+  e.preventDefault();
+  const stampDiv = e.target.closest('.stamp');
+  openPageMenu(e.clientX, e.clientY, +wrap.dataset.page,
+    stampDiv ? +stampDiv.dataset.stampId : null);
+});
+
+// Долгий тап = ПКМ: iOS Safari не шлёт contextmenu для касаний,
+// Android шлёт — флаг nativeCtxFired спасает от двойного открытия
+els.viewer.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'touch' || !pdfDoc) return;
+  // данные снимаем сразу: startDrag перерисует DOM и e.target отвалится
+  const stampDiv = e.target.closest('.stamp');
+  const stampId = stampDiv ? +stampDiv.dataset.stampId : null;
+  const wrap = e.target.closest('.pageWrap');
+  const stampRec = stampId != null ? stamps.find(s => s.id === stampId) : null;
+  const pageN = wrap ? +wrap.dataset.page : (stampRec ? stampRec.page : null);
+  if (!pageN) return;
+
+  nativeCtxFired = false;
+  const sx = e.clientX, sy = e.clientY;
+  let moved = false;
+  const onMove = ev => {
+    if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 12) moved = true;
+  };
+  const timer = setTimeout(() => {
+    if (!nativeCtxFired && !moved) openPageMenu(sx, sy, pageN, stampId);
+  }, 550);
+  const cancel = () => {
+    clearTimeout(timer);
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', cancel);
+    window.removeEventListener('pointercancel', cancel);
+  };
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', cancel);
+  window.addEventListener('pointercancel', cancel);
+});
+
+window.addEventListener('pointerdown', e => {
+  if (!e.target.closest('#ctxMenu')) hideMenu();
+});
+window.addEventListener('scroll', hideMenu, { passive: true });
+window.addEventListener('keydown', e => { if (e.key === 'Escape') hideMenu(); });
+
+// ---------- drag & drop файлов ----------
+
+let dragDepth = 0;
+
+window.addEventListener('dragenter', e => {
+  if (![...e.dataTransfer.types].includes('Files')) return;
+  e.preventDefault();
+  dragDepth++;
+  els.dropZone.style.display = 'flex';
+});
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('dragleave', e => {
+  e.preventDefault();
+  if (--dragDepth <= 0) { dragDepth = 0; els.dropZone.style.display = 'none'; }
+});
+window.addEventListener('drop', e => {
+  e.preventDefault();
+  dragDepth = 0;
+  els.dropZone.style.display = 'none';
+  for (const file of e.dataTransfer.files) {
+    if (file.type === 'application/pdf') {
+      loadPdf(file);
+      return; // новый PDF — остальные файлы из этого дропа игнорируем
+    }
+    if ((file.type === 'image/png' || file.type === 'image/jpeg') && pdfDoc) {
+      addImageFile(file);
+    }
+  }
+});
+
+// ---------- отрисовка и взаимодействие ----------
+
+function renderStamps() {
+  for (const pv of pageViews) pv.overlay.innerHTML = '';
+  for (const s of stamps) {
+    const pv = pageViews[s.page - 1];
+    if (!pv) continue;
+    const img = images.find(i => i.id === s.imgId);
+    const div = document.createElement('div');
+    div.className = 'stamp' + (s.id === selectedId ? ' selected' : '');
+    div.dataset.stampId = s.id;
+    div.style.left = s.x * pv.scale + 'px';
+    div.style.top = s.y * pv.scale + 'px';
+    div.style.width = s.w * pv.scale + 'px';
+    div.style.height = s.h * pv.scale + 'px';
+    div.innerHTML = `<img src="${img.dataUrl}" draggable="false">
+      <div class="handle"></div><button class="del">✕</button>`;
+
+    const del = div.querySelector('.del');
+    // гасим pointerdown, иначе он запускает перетаскивание картинки
+    // и перерисовку — click по крестику до неё не доживает
+    del.addEventListener('pointerdown', ev => ev.stopPropagation());
+    del.onclick = ev => {
+      ev.stopPropagation();
+      deleteStamp(s.id);
+    };
+    div.querySelector('.handle').addEventListener('pointerdown', ev => {
+      ev.stopPropagation();
+      startResize(ev, s);
+    });
+    div.addEventListener('pointerdown', ev => startDrag(ev, s));
+    pv.overlay.appendChild(div);
+  }
+}
+
+function stampEl(s) {
+  return document.querySelector(`.stamp[data-stamp-id="${s.id}"]`);
+}
+
+function deleteStamp(id) {
+  const i = stamps.findIndex(s => s.id === id);
+  if (i < 0) return;
+  if (!confirm(t('confirmDel'))) return;
+  stamps.splice(i, 1);
+  if (selectedId === id) selectedId = null;
+  renderStamps();
+}
+
+function startDrag(ev, s) {
+  if (ev.button !== 0) return;
+  ev.preventDefault();
+  selectedId = s.id;
+  renderStamps();
+  const pv = pageViews[s.page - 1];
+  const startX = ev.clientX, startY = ev.clientY;
+  const origX = s.x, origY = s.y;
+
+  const move = e => {
+    s.x = Math.min(Math.max(origX + (e.clientX - startX) / pv.scale, -s.w / 2), pv.w - s.w / 2);
+    s.y = Math.min(Math.max(origY + (e.clientY - startY) / pv.scale, -s.h / 2), pv.h - s.h / 2);
+    positionEl(s);
+  };
+  const up = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+}
+
+function startResize(ev, s) {
+  if (ev.button !== 0) return;
+  ev.preventDefault();
+  selectedId = s.id;
+  const pv = pageViews[s.page - 1];
+  const startX = ev.clientX;
+  const origW = s.w, origH = s.h;
+  const ratio = origH / origW;
+
+  const move = e => {
+    const w = Math.max(20, origW + (e.clientX - startX) / pv.scale);
+    s.w = w;
+    s.h = w * ratio;
+    positionEl(s);
+  };
+  const up = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+}
+
+function positionEl(s) {
+  const div = stampEl(s);
+  if (!div) return;
+  const pv = pageViews[s.page - 1];
+  div.style.left = s.x * pv.scale + 'px';
+  div.style.top = s.y * pv.scale + 'px';
+  div.style.width = s.w * pv.scale + 'px';
+  div.style.height = s.h * pv.scale + 'px';
+}
+
+// Delete / Backspace — удалить выделенную
+window.addEventListener('keydown', e => {
+  if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId !== null
+      && document.activeElement.tagName !== 'INPUT') {
+    deleteStamp(selectedId);
+  }
+});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  if (!pdfDoc) return;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderAllPages, 200);
+});
+
+// ---------- сохранение ----------
+
+els.saveBtn.onclick = async () => {
+  els.saveBtn.disabled = true;
+  els.saveBtn.textContent = t('saving');
+  try {
+    const doc = await PDFLib.PDFDocument.load(pdfBytes);
+    const embedded = new Map();
+    for (const img of images) {
+      if (stamps.some(s => s.imgId === img.id)) {
+        embedded.set(img.id, img.type === 'png'
+          ? await doc.embedPng(img.bytes)
+          : await doc.embedJpg(img.bytes));
+      }
+    }
+    const pages = doc.getPages();
+    for (const s of stamps) {
+      const page = pages[s.page - 1];
+      // наши координаты — от верхнего левого угла, у PDF — от нижнего левого
+      page.drawImage(embedded.get(s.imgId), {
+        x: s.x,
+        y: page.getHeight() - s.y - s.h,
+        width: s.w,
+        height: s.h,
+      });
+    }
+    const out = await doc.save();
+    const blob = new Blob([out], { type: 'application/pdf' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = pdfName + '-signed.pdf';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } finally {
+    els.saveBtn.disabled = false;
+    els.saveBtn.textContent = t('save');
+  }
+};
+
+applyLang();
+</script>
+</body>
+</html>

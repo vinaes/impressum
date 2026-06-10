@@ -1,0 +1,7 @@
+services:
+  impressum:
+    build: .
+    container_name: impressum
+    ports:
+      - "47812:80"
+    restart: unless-stopped
